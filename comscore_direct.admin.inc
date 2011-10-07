@@ -36,3 +36,17 @@ function comscore_direct_form() {
   $form = system_settings_form($form);
   return $form;
 }
+
+/* 
+ * Form validation
+ *
+ */
+function comscore_direct_form_validate($form, &$form_state) {
+  $comscore_customer_id = $form_state['values']['comscore_direct_id'];
+  if (!is_numeric($comscore_customer_id)) {
+    form_set_error('mls_comscore_id', t('You must enter an integer for comScore customer code.'));
+  }
+  elseif ($comscore_customer_id <= 0) {
+    form_set_error('mls_comscore_id', t('comScore customer code must be positive.'));
+  }
+}

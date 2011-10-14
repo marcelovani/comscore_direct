@@ -10,7 +10,7 @@
  * 
  */
 function comscore_direct_perm() {
-  return array('administer MLS Comscore');
+  return array('administer comScore direct');
 }
 
 /**
@@ -27,36 +27,38 @@ function comscore_direct_menu() {
     'page arguments' => array('comscore_direct_form'),
     'file' => 'comscore_direct.admin.inc',
     'access callback' => 'user_access',
-    'access arguments' => array('administer MLS comScore'),
+    'access arguments' => array('administer comScore direct'),
     );
 
   return $items;
 }
 
 /**
- * Implementation of hook_init
- * Place the comScore code in the header
+ * Implementation of hook_footer
  */
-function comscore_direct_init() {
+function comscore_direct_footer($main = 0) {
   $path = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-  $com_id = variable_get('comscore_direct_id', '');
-  $com_genre = variable_get('comscore_direct_genre', '');
-  $comid_package = variable_get('comscore_direct_package', '');
-  $comid_client = variable_get('comscore_direct_clientseg', '');
-  $data = '<!-- Begin comScore Tag --> 
-    <script>
-      var _comscore = _comscore || [];
-      _comscore.push({ c1: "2", c2: "' . $com_id . '", c3: "", c4: "' . $path . '", c5: "' . $com_genre . '", c6: "' . $comid_package . '", c15: "' . $comid_client . '" }); 
-      (function() { 
-        var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true; 
-        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js"; 
-        el.parentNode.insertBefore(s, el); 
-      })(); 
-    </script> 
-    <noscript>
-      <img src="http://b.scorecardresearch.com/p?c1=2&c2=' . $com_id . '&c3=&c4=' . $path . '&c5=' . $com_genre . '&c6=' . $comid_package . '&c15=' . $comid_client . '&cv=2.0&cj=1" />
-    </noscript> 
-<!-- End comScore Tag -->';
-  drupal_set_html_head($data);
+  $com_id = check_plain(variable_get('comscore_direct_id', ''));
+  $com_genre = check_plain(variable_get('comscore_direct_genre', ''));
+  $comid_package = check_plain(variable_get('comscore_direct_package', ''));
+  $comid_client = check_plain(variable_get('comscore_direct_clientseg', ''));
+  $data = '';
+  if (!empty($com_id)) {
+    $data .= '<!-- Begin comScore Tag --> 
+      <script>
+        var _comscore = _comscore || [];
+        _comscore.push({ c1: "2", c2: "' . $com_id . '", c3: "", c4: "' . $path . '", c5: "' . $com_genre . '", c6: "' . $comid_package . '", c15: "' . $comid_client . '" }); 
+        (function() { 
+          var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true; 
+          s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js"; 
+          el.parentNode.insertBefore(s, el); 
+        })(); 
+      </script> 
+      <noscript>
+        <img src="http://b.scorecardresearch.com/p?c1=2&c2=' . $com_id . '&c3=&c4=' . $path . '&c5=' . $com_genre . '&c6=' . $comid_package . '&c15=' . $comid_client . '&cv=2.0&cj=1" />
+      </noscript> 
+  <!-- End comScore Tag -->';
+  }
+  return $data;
 }
 

@@ -7,7 +7,7 @@
  * Remove all the comscore_direct settings from the variables table if uninstalled
  *
 */
-function mls_facebook_settings_uninstall() {
+function mls_comscore_direct_uninstall() {
   $vars = db_query("SELECT * FROM {variable} WHERE name LIKE 'comscore_direct_%'");
   while ($var = db_fetch_object($vars)) {
     variable_del($var->name);

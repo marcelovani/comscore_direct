@@ -19,7 +19,7 @@ function comscore_direct_menu() {
 
   $items['admin/settings/comscore_direct'] = array(
     'type' => MENU_NORMAL_ITEM,
-    'title' => t('MLS comScore settings'),
+    'title' => t('comScore settings'),
     'description' => t('Settings for comScore tag'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('comscore_direct_form'),

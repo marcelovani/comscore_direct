@@ -32,8 +32,7 @@ function comscore_direct_form() {
       '#description' => t('<p>Alphanumeric value for Publisher’s own segment for the machine the content asset is being served to (optional)</p>'),
       '#default_value' => variable_get('comscore_direct_clientseg', '')
   );
-  $form = system_settings_form($form);
-  return $form;
+  return system_settings_form($form);
 }
 
 /*

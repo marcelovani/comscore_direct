@@ -10,26 +10,26 @@ function comscore_direct_form() {
   $form['comscore_direct_id'] = array(
       '#title' => t('comScore site id'),
       '#type' => 'textfield',
-      '#description' => t('<p>comScore ID (required)</p>'),
+      '#description' => t('comScore ID (required)'),
       '#default_value' => variable_get('comscore_direct_id', ''),
       '#required' => TRUE,
   );
   $form['comscore_direct_genre'] = array(
       '#title' => t('comScore Genre of content'),
       '#type' => 'textfield',
-      '#description' => t('<p>Alphanumeric value used for client specific custom classification (optional)</p>'),
+      '#description' => t('Alphanumeric value used for client specific custom classification (optional)'),
       '#default_value' => variable_get('comscore_direct_genre', '')
   );
   $form['comscore_direct_package'] = array(
       '#title' => t('comScore Package'),
       '#type' => 'textfield',
-      '#description' => t('<p>Alphanumeric value for customized aggregation to reflect sections or site centric advertising packages (optional)</p>'),
+      '#description' => t('Alphanumeric value for customized aggregation to reflect sections or site centric advertising packages (optional)'),
       '#default_value' => variable_get('comscore_direct_package', '')
   );
   $form['comscore_direct_clientseg'] = array(
       '#title' => t('comScore Client Segment ID'),
       '#type' => 'textfield',
-      '#description' => t('<p>Alphanumeric value for Publisher’s own segment for the machine the content asset is being served to (optional)</p>'),
+      '#description' => t('Alphanumeric value for Publisher’s own segment for the machine the content asset is being served to (optional)'),
       '#default_value' => variable_get('comscore_direct_clientseg', '')
   );
   return system_settings_form($form);

@@ -1,6 +1,9 @@
 <?php
 /* @file
  *
+ */
+ 
+/*
  * Implementation of hook_uninstall().
  *
  * Remove all the comscore_direct settings from the variables table if uninstalled.

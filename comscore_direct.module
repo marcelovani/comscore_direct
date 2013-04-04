@@ -5,10 +5,14 @@
  */
 
 /**
- * Implementation of hook_perm().
+ * Implementation of hook_permission().
  */
-function comscore_direct_perm() {
-  return array('administer comScore direct');
+function comscore_direct_permission() {
+  return array(
+    'Administer comScore direct' => array(
+      'title' => t('Administer comScore direct')
+    )
+  );
 }
 
 /**
@@ -32,30 +36,32 @@ function comscore_direct_menu() {
 }
 
 /**
- * Implementation of hook_footer().
+ * Implementation of hook_page_alter().
  */
-function comscore_direct_footer($main = 0) {
+function comscore_direct_page_alter(&$page) {
   $path = $_SERVER['HTTP_HOST'] . request_uri();
   $com_id = check_plain(variable_get('comscore_direct_id', ''));
   $com_genre = check_plain(variable_get('comscore_direct_genre', ''));
   $comid_package = check_plain(variable_get('comscore_direct_package', ''));
   $comid_client = check_plain(variable_get('comscore_direct_clientseg', ''));
-  $data = '';
-  if (!empty($com_id)) {
-    $data .= '<!-- Begin comScore Tag -->
-      <script>
-        var _comscore = _comscore || [];
-        _comscore.push({ c1: "2", c2: "' . $com_id . '", c3: "", c4: "' . $path . '", c5: "' . $com_genre . '", c6: "' . $comid_package . '", c15: "' . $comid_client . '" });
-        (function() {
-          var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
-          s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
-          el.parentNode.insertBefore(s, el);
-        })();
-      </script>
-      <noscript>
-        <img src="http://b.scorecardresearch.com/p?c1=2&c2=' . $com_id . '&c3=&c4=' . $path . '&c5=' . $com_genre . '&c6=' . $comid_package . '&c15=' . $comid_client . '&cv=2.0&cj=1" />
-      </noscript>
-  <!-- End comScore Tag -->';
-  }
-  return $data;
+
+    if (!empty($com_id)) {
+      $page['page_bottom']['comscore direct'] = array(
+        '#type' => 'markup',
+        '#markup' => '<!-- Begin comScore Tag -->
+          <script>
+            var _comscore = _comscore || [];
+            _comscore.push({ c1: "2", c2: "' . $com_id . '", c3: "", c4: "' . $path . '", c5: "' . $com_genre . '", c6: "' . $comid_package . '", c15: "' . $comid_client . '" });
+            (function() {
+              var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
+              s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+              el.parentNode.insertBefore(s, el);
+            })();
+          </script>
+          <noscript>
+            <img src="http://b.scorecardresearch.com/p?c1=2&c2=' . $com_id . '&c3=&c4=' . $path . '&c5=' . $com_genre . '&c6=' . $comid_package . '&c15=' . $comid_client . '&cv=2.0&cj=1" />
+          </noscript>
+      <!-- End comScore Tag -->'
+        );
+    }
 }

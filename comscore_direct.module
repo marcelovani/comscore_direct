@@ -35,7 +35,9 @@ function comscore_direct_menu() {
  * Implementation of hook_footer().
  */
 function comscore_direct_footer($main = 0) {
-  $path = $_SERVER['HTTP_HOST'] . request_uri();
+  global $base_url;
+  $com_base_url = variable_get('comscore_direct_baseurl', '');
+  $path = (!empty($com_base_url) ? $com_base_url : $base_url) . request_uri();
   $com_id = check_plain(variable_get('comscore_direct_id', ''));
   $com_genre = check_plain(variable_get('comscore_direct_genre', ''));
   $comid_package = check_plain(variable_get('comscore_direct_package', ''));

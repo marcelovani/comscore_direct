@@ -6,6 +6,7 @@
  *
  */
 function comscore_direct_form() {
+  global $base_url;
   $form = array();
   $form['comscore_direct_id'] = array(
       '#title' => t('comScore site id'),
@@ -31,6 +32,12 @@ function comscore_direct_form() {
       '#type' => 'textfield',
       '#description' => t('Alphanumeric value for Publisher’s own segment for the machine the content asset is being served to (optional)'),
       '#default_value' => variable_get('comscore_direct_clientseg', '')
+  );
+  $form['comscore_direct_baseurl'] = array(
+    '#title' => t('Base URL'),
+    '#type' => 'textfield',
+    '#description' => t('This is your site URL and will be used for the c4 parameter.  If empty, the default will be: %base_url', array('%base_url' => $base_url)),
+    '#default_value' => variable_get('comscore_direct_baseurl', ''),
   );
   return system_settings_form($form);
 }

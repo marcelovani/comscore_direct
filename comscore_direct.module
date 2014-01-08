@@ -20,18 +20,16 @@ function comscore_direct_permission() {
  */
 function comscore_direct_menu() {
   $items = array();
-
-  $items['admin/settings/comscore_direct'] = array(
+  $items['admin/config/system/comscore_direct'] = array(
     'type' => MENU_NORMAL_ITEM,
-    'title' => t('comScore settings'),
-    'description' => t('Settings for comScore tag'),
+    'title' => 'comScore',
+    'description' => 'Settings for comScore tag',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('comscore_direct_form'),
     'file' => 'comscore_direct.admin.inc',
     'access callback' => 'user_access',
-    'access arguments' => array('administer comScore direct'),
-    );
-
+    'access arguments' => array('administer content types'),
+  );
   return $items;
 }
 
@@ -39,7 +37,9 @@ function comscore_direct_menu() {
  * Implementation of hook_page_alter().
  */
 function comscore_direct_page_alter(&$page) {
-  $path = $_SERVER['HTTP_HOST'] . request_uri();
+  global $base_url;
+  $com_base_url = variable_get('comscore_direct_baseurl', '');
+  $path = (!empty($com_base_url) ? $com_base_url : $base_url) . request_uri();
   $com_id = check_plain(variable_get('comscore_direct_id', ''));
   $com_genre = check_plain(variable_get('comscore_direct_genre', ''));
   $comid_package = check_plain(variable_get('comscore_direct_package', ''));

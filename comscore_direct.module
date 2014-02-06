@@ -9,7 +9,7 @@
  */
 function comscore_direct_permission() {
   return array(
-    'Administer comScore direct' => array(
+    'administer comscore direct' => array(
       'title' => t('Administer comScore direct')
     )
   );
@@ -28,7 +28,7 @@ function comscore_direct_menu() {
     'page arguments' => array('comscore_direct_form'),
     'file' => 'comscore_direct.admin.inc',
     'access callback' => 'user_access',
-    'access arguments' => array('administer content types'),
+    'access arguments' => array('administer comscore direct'),
   );
   return $items;
 }

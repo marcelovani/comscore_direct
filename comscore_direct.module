@@ -37,6 +37,12 @@ function comscore_direct_menu() {
  * Implementation of hook_page_alter().
  */
 function comscore_direct_page_alter(&$page) {
+
+  // Exclude tag from admin pages.
+  if (path_is_admin(current_path())) {
+    return;
+  }
+
   global $base_url;
   $com_base_url = variable_get('comscore_direct_baseurl', '');
   $path = (!empty($com_base_url) ? $com_base_url : $base_url) . request_uri();

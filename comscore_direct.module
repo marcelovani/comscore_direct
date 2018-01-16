@@ -36,18 +36,36 @@ function comscore_direct_menu() {
  */
 function comscore_direct_footer($main = 0) {
   global $base_url;
-  $com_base_url = variable_get('comscore_direct_baseurl', '');
+  $com_base_url = check_url(variable_get('comscore_direct_baseurl', ''));
   $path = (!empty($com_base_url) ? $com_base_url : $base_url) . request_uri();
   $com_id = check_plain(variable_get('comscore_direct_id', ''));
   $com_genre = check_plain(variable_get('comscore_direct_genre', ''));
   $comid_package = check_plain(variable_get('comscore_direct_package', ''));
   $comid_client = check_plain(variable_get('comscore_direct_clientseg', ''));
+
+  $script_args = array(
+    'c1' => '2',
+    'c2' => $com_id,
+    'c3' => '',
+    'c4' => $path,
+    'c5' => $com_genre,
+    'c6' => $comid_package,
+    'c15' => $comid_client,
+  );
+  $noscript_args = array_merge(
+    $script_args,
+    array(
+      'cv' => '2.0',
+      'cj' => '1',
+    )
+  );
+
   $data = '';
   if (!empty($com_id)) {
     $data .= '<!-- Begin comScore Tag -->
       <script>
         var _comscore = _comscore || [];
-        _comscore.push({ c1: "2", c2: "' . $com_id . '", c3: "", c4: "' . $path . '", c5: "' . $com_genre . '", c6: "' . $comid_package . '", c15: "' . $comid_client . '" });
+        _comscore.push(' . json_encode($script_args) . ');
         (function() {
           var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
           s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
@@ -55,7 +73,7 @@ function comscore_direct_footer($main = 0) {
         })();
       </script>
       <noscript>
-        <img src="http://b.scorecardresearch.com/p?c1=2&c2=' . $com_id . '&c3=&c4=' . $path . '&c5=' . $com_genre . '&c6=' . $comid_package . '&c15=' . $comid_client . '&cv=2.0&cj=1" />
+        <img src="http://b.scorecardresearch.com/p?' . drupal_http_build_query($noscript_args) . '" />
       </noscript>
   <!-- End comScore Tag -->';
   }
